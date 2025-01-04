@@ -25,7 +25,8 @@
       <p id="login-message"></p>
     </div>
 
-    <button id="btn-play" disabled>Играть</button>
+    <button id="btn-play-online" disabled>Играть онлайн</button>
+    <button id="btn-play-bots">Играть с ботами</button>
   </div>
 
   <script>
@@ -39,7 +40,8 @@
     const loginPassword = document.getElementById("login-password");
     const loginMessage = document.getElementById("login-message");
 
-    const playBtn = document.getElementById("btn-play");
+    const playOnlineBtn = document.getElementById("btn-play-online");
+    const playBotsBtn = document.getElementById("btn-play-bots");
 
     let currentUser = null;
 
@@ -85,22 +87,27 @@
       if (data.success) {
         loginMessage.textContent = "Вход успешен!";
         currentUser = username;
-        playBtn.disabled = false;
+        playOnlineBtn.disabled = false;
       } else {
         loginMessage.textContent = data.message;
         currentUser = null;
-        playBtn.disabled = true;
+        playOnlineBtn.disabled = true;
       }
     });
 
-    playBtn.addEventListener("click", () => {
+    playOnlineBtn.addEventListener("click", () => {
       if (!currentUser) {
         alert("Сначала войдите!");
         return;
       }
-      // Переходим на основную страницу игры и передаём имя пользователя
-      // Самый простой способ - через query-параметры:
-      const url = `index.html?username=${encodeURIComponent(currentUser)}`;
+      const url = `index.html?mode=online&username=${encodeURIComponent(currentUser)}`;
+      window.location.href = url;
+    });
+
+    // Игра с ботами может не требовать логина:
+    playBotsBtn.addEventListener("click", () => {
+      const userName = currentUser || "Guest" + Math.floor(Math.random() * 1000);
+      const url = `index.html?mode=bots&username=${encodeURIComponent(userName)}`;
       window.location.href = url;
     });
   </script>
