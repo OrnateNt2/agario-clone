@@ -1,0 +1,74 @@
+# Mac OS системные файлы
+.DS_Store
+
+# Лог-файлы и отчёты
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Логи и временные файлы
+logs
+*.log
+*.log.*
+pids
+*.pid
+*.seed
+*.pid.lock
+
+# Операционные
+*.swp
+*.swo
+*.swn
+*.bak
+*~
+
+# Node.js
+node_modules/
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+
+# dist, build и другие артефакты сборки
+dist/
+build/
+.parcel-cache/
+.tmp/
+
+# Enviroment файлы
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# IDE/Editor
+.vscode/
+.idea/
+
+# Client / Front-end
+client/node_modules/
+client/package-lock.json
+client/build/
+client/dist/
+
+# Server / Back-end
+server/node_modules/
+server/package-lock.json
+server/logs/
+server/dist/
+server/build/
+
+# Babel / TypeScript
+.babelrc
+*.tsbuildinfo
+
+# Coverage
+coverage/
+.coverage/
+.coveralls
+nyc_output/
+
+# ESLint / Prettier
+.eslintcache
+.prettiercache

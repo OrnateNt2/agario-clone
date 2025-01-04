@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <title>Agar.io Clone - Меню</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div id="menu-container">
+    <h1>Agar.io Clone</h1>
+    
+    <div id="register-form">
+      <h2>Регистрация</h2>
+      <input type="text" id="register-username" placeholder="Имя пользователя" />
+      <input type="password" id="register-password" placeholder="Пароль" />
+      <button id="btn-register">Зарегистрироваться</button>
+      <p id="register-message"></p>
+    </div>
+    
+    <div id="login-form">
+      <h2>Вход</h2>
+      <input type="text" id="login-username" placeholder="Имя пользователя" />
+      <input type="password" id="login-password" placeholder="Пароль" />
+      <button id="btn-login">Войти</button>
+      <p id="login-message"></p>
+    </div>
+
+    <button id="btn-play" disabled>Играть</button>
+  </div>
+
+  <script>
+    const registerBtn = document.getElementById("btn-register");
+    const registerUsername = document.getElementById("register-username");
+    const registerPassword = document.getElementById("register-password");
+    const registerMessage = document.getElementById("register-message");
+
+    const loginBtn = document.getElementById("btn-login");
+    const loginUsername = document.getElementById("login-username");
+    const loginPassword = document.getElementById("login-password");
+    const loginMessage = document.getElementById("login-message");
+
+    const playBtn = document.getElementById("btn-play");
+
+    let currentUser = null;
+
+    registerBtn.addEventListener("click", async () => {
+      const username = registerUsername.value.trim();
+      const password = registerPassword.value.trim();
+
+      if (!username || !password) {
+        registerMessage.textContent = "Заполните поля!";
+        return;
+      }
+
+      const response = await fetch("http://localhost:3000/api/register", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ username, password }),
+      });
+      const data = await response.json();
+
+      if (data.success) {
+        registerMessage.textContent = "Регистрация прошла успешно!";
+      } else {
+        registerMessage.textContent = data.message;
+      }
+    });
+
+    loginBtn.addEventListener("click", async () => {
+      const username = loginUsername.value.trim();
+      const password = loginPassword.value.trim();
+
+      if (!username || !password) {
+        loginMessage.textContent = "Заполните поля!";
+        return;
+      }
+
+      const response = await fetch("http://localhost:3000/api/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ username, password }),
+      });
+      const data = await response.json();
+
+      if (data.success) {
+        loginMessage.textContent = "Вход успешен!";
+        currentUser = username;
+        playBtn.disabled = false;
+      } else {
+        loginMessage.textContent = data.message;
+        currentUser = null;
+        playBtn.disabled = true;
+      }
+    });
+
+    playBtn.addEventListener("click", () => {
+      if (!currentUser) {
+        alert("Сначала войдите!");
+        return;
+      }
+      // Переходим на основную страницу игры и передаём имя пользователя
+      // Самый простой способ - через query-параметры:
+      const url = `index.html?username=${encodeURIComponent(currentUser)}`;
+      window.location.href = url;
+    });
+  </script>
+</body>
+</html>
